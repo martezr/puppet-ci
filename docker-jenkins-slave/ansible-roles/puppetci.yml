@@ -1,0 +1,7 @@
+---
+# file: puppetci.yml
+
+- hosts: puppetci
+  roles:
+    - jenkinsdockerslave
+    - puppetci

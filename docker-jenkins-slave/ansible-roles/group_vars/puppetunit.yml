@@ -1,0 +1,3 @@
+---
+# file: group_vars/puppetunit.yml
+jenkins_swarm_label: puppetunit

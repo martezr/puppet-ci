@@ -1,0 +1,24 @@
+---
+- name: Install rubygems
+  yum: name=rubygems state=latest
+- name: Install gcc
+  yum: name=gcc state=latest
+- name: Install ruby-devel
+  yum: name=ruby-devel state=latest
+- name: Install rpm-build
+  yum: name=rpm-build state=latest
+- name: Install make
+  yum: name=make state=latest
+- name: Update ruby gems
+  command: gem update --system creates=/opt/rubygemsinstall.txt
+- name: Create rubygems checkfile
+  file: path=/opt/rubygemsinstall.txt state=touch
+  changed_when: False
+- name: Install fpm gem
+  gem: name=fpm state=latest user_install=no
+#- name: Install r10k gem
+#  gem: name=r10k state=latest user_install=no
+- name: Install bundler gem
+  gem: name=bundler state=latest user_install=no
+- name: Install which package
+  yum: name=which state=latest

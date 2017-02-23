@@ -1,0 +1,6 @@
+---
+# file: site.yml
+
+- include: jenkinsdockerslave.yml
+- include: puppetunit.yml
+- include: puppetci.yml

@@ -1,0 +1,6 @@
+---
+# file: jenkinsdockerslave.yml
+
+- hosts: jenkinsdockerslave
+  roles:
+    - jenkinsdockerslave

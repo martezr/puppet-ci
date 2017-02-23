@@ -1,0 +1,3 @@
+---
+# file: group_vars/jenkinsdockerslave.yml
+jenkins_swarm_label: jenkinsdockerslave

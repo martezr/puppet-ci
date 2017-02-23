@@ -1,0 +1,7 @@
+---
+# file: puppetunit.yml
+
+- hosts: puppetunit
+  roles:
+    - jenkinsdockerslave
+    - puppetunit
