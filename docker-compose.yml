@@ -6,10 +6,7 @@ etcd:
   ports:
     - "4001:4001"
 sinatra:
-  image: sinatra
-  build:
-    context: ./sinatra
-    dockerfile: Dockerfile
+  build: ./sinatra
   ports: 
     - "3000:3000"
   volumes:
@@ -30,10 +27,7 @@ jenkins:
   environment:
       prefix: "/jenkins"
 jjb:
-  image: jjb
-  build:
-    context: ./jjb
-    dockerfile: Dockerfile
+  build: ./jjb
 #elasticsearch:
 #  image: elasticsearch:latest
 #  command: elasticsearch
