@@ -1,0 +1,47 @@
+---
+docker_group: docker
+docker_allow_users: []      # Ensure users exist
+
+## Package
+docker_apt_key_id: '58118E89F3A912897C070ADBF76221572C52609D'
+docker_apt_repo: "deb https://apt.dockerproject.org/repo ubuntu-{{ ansible_distribution_release }} main"
+docker_yum_gpg_key_url:  'https://yum.dockerproject.org/gpg'
+docker_yum_repo_baseurl: 'https://yum.dockerproject.org/repo/main/centos/$releasever/'
+
+docker_engine_version:  '*'    # specify '*' for latest version
+docker_api_version:     '1.10.6'
+docker_api_install:     false
+
+## Config
+docker_engine_opts: []
+docker_engine_http_proxy:
+docker_engine_tmp_dir:
+docker_engine_binary:
+docker_engine_port:     2375
+docker_engine_tls_port: 2376
+
+## docker-compose
+docker_compose_version: '1.10.0'
+docker_compose_version_major_minor: "{{ docker_compose_version.split('.')[0] + '.' + docker_compose_version.split('.')[1] }}"
+
+## docker swarm
+docker_swarm_create_cluster:    false
+
+docker_swarm_port:      3375
+docker_swarm_tls_port:  3376
+docker_swarm_host_ip:  "{{ ansible_default_ipv4.address }}"
+
+docker_swarm_discovery_backend:                 # Mandatory
+docker_swarm_discovery_backend_url:             # Mandatory
+
+docker_swarm_manager: false
+docker_swarm_manager_command_args:
+docker_swarm_manager_command: "manage {{ docker_swarm_manager_command_args|default('') }} {{ docker_swarm_discovery_backend_url|mandatory }}"
+ 
+docker_swarm_node: false
+docker_swarm_node_command_args:
+docker_swarm_node_command: "join {{ docker_swarm_node_command_args|default('') }} {{ docker_swarm_discovery_backend_url|mandatory }}"
+docker_swarm_image_version: 1.2.5
+
+## Configures logrotate for /var/lib/docker/containers/*-json.log
+docker_container_logs_rotate: false

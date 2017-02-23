@@ -1,0 +1,9 @@
+---
+- hosts: all
+  vars:
+    docker_port: 2375
+    docker_engine_opts:
+      - "-H tcp://0.0.0.0:{{ docker_port }}"
+      - "-H unix:///var/run/docker.sock"
+  roles:
+    - role: wunzeco.docker
