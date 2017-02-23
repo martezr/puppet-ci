@@ -1,0 +1,47 @@
+---
+- job:
+    name: test.controlrepo
+    project-type: freestyle
+    description: Jenkins job for testing the control repository.
+    scm:
+    - git:
+        url: rabbitmq
+        branches:
+        - origin/pr/production
+        credentials-id:
+        browser: auto
+    triggers:
+    - pollscm:
+        cron: ''
+    disabled: false
+    node: 
+    wrappers:
+    - workspace-cleanup
+    builders:
+    - shell: |
+        #!/bin/bash
+
+        # Install prerequisite software
+        gem install r10k --no-ri --no-rdoc
+        gem install puppet --no-ri --no-rdoc
+
+        # Set r10k version and output the version
+        r10k_version=$(r10k version)
+        echo "r10k version: $r10k_version"
+
+        # Check the syntax of the Puppetfile
+        echo "r10k puppet syntax validation"
+        r10k puppetfile check -v --color
+
+        # Download the Puppet modules into the current directory
+        echo "r10k puppet module download"
+        r10k puppetfile install -v --color
+
+        # Check module dependencies
+        echo "r10k module dependencies"
+        current_path=$(pwd)
+        puppet module list --modulepath $current_path/modules --tree
+
+        # List number of Puppet modules
+        number_of_modules=$(ls ./modules/ | wc -l)
+        echo "Number of Puppet modules: $number_of_modules"
