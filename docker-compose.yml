@@ -7,20 +7,13 @@ etcd:
     - "4001:4001"
 sinatra:
   image: sinatra
+  build:
+    context: ./sinatra
+    dockerfile: Dockerfile
   ports: 
     - "3000:3000"
   volumes:
     - /root/sinatra:/usr/src/app
-#nginx:
-#  image: nginx:latest
-#  ports:
-#    - "80:80"
-#    - "82:82"
-#  links:
-#    - jenkins
-#    - kibana
-#  volumes:
-#    - /root/nginx:/etc/nginx
 rabbitmq:
   image: rabbitmq:3-management
   ports:
@@ -38,6 +31,9 @@ jenkins:
       prefix: "/jenkins"
 jjb:
   image: jjb
+  build:
+    context: ./jjb
+    dockerfile: Dockerfile
 #elasticsearch:
 #  image: elasticsearch:latest
 #  command: elasticsearch
