@@ -1,0 +1,66 @@
+etcd:
+  image: quay.io/coreos/etcd:v2.2.0
+  environment:
+    ETCD_LISTEN_CLIENT_URLS: http://0.0.0.0:4001,http://0.0.0.0:2379
+    ETCD_ADVERTISE_CLIENT_URLS: http://localhost:4001,http://localhost:2379
+  ports:
+    - "4001:4001"
+sinatra:
+  image: sinatra
+  ports: 
+    - "3000:3000"
+  volumes:
+    - /root/sinatra:/usr/src/app
+#nginx:
+#  image: nginx:latest
+#  ports:
+#    - "80:80"
+#    - "82:82"
+#  links:
+#    - jenkins
+#    - kibana
+#  volumes:
+#    - /root/nginx:/etc/nginx
+rabbitmq:
+  image: rabbitmq:3-management
+  ports:
+    - "15672:15672"
+    - "5671:5671"
+    - "5672:5672"
+    - "4369:4369"
+    - "25672:25672"
+jenkins:
+  image: jenkins:latest
+  ports:
+    - "8080:8080"
+    - "50000:50000"
+  environment:
+      prefix: "/jenkins"
+jjb:
+  image: jjb
+#elasticsearch:
+#  image: elasticsearch:latest
+#  command: elasticsearch
+#  ports:
+#    - "9200:9200"
+#    - "9300:9300"
+#  volume_driver: flocker
+#  volumes:
+#    - elasticsearch1:/usr/share/elasticsearch/data
+#logstash:
+#  image: logstash:latest
+#  command: logstash -f /etc/logstash/conf.d/logstash.conf
+#  volumes:
+#    - ./logstash.conf:/etc/logstash/conf.d/logstash.conf
+#  ports:
+#    - "5000:5000"
+#  links:
+#    - elasticsearch
+#kibana:
+#  image: kibana
+#  ports:
+#    - "5601:5601"
+#  links:
+#    - elasticsearch
+#  environment:
+#    - ELASTICSEARCH_URL=http://elasticsearch:9200
