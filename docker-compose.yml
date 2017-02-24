@@ -9,8 +9,6 @@ sinatra:
   build: ./sinatra
   ports: 
     - "3000:3000"
-  volumes:
-    - /root/sinatra:/usr/src/app
 rabbitmq:
   image: rabbitmq:3-management
   ports:
@@ -28,6 +26,10 @@ jenkins:
       prefix: "/jenkins"
 jjb:
   build: ./jjb
+  links:
+    - etcd
+    - rabbitmq
+    - jenkins
 #elasticsearch:
 #  image: elasticsearch:latest
 #  command: elasticsearch

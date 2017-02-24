@@ -7,6 +7,3 @@
       - "-H unix:///var/run/docker.sock"
   roles:
     - role: wunzeco.docker
-  tasks:
-    - name: run this command and ignore the result
-      shell: docker-compose up

@@ -5,6 +5,7 @@ ENV APP_ROOT /usr/src/app
 RUN mkdir -p $APP_ROOT
 WORKDIR $APP_ROOT
 COPY Gemfile* $APP_HOME/
+COPY data/ $APP_HOME/
 RUN bundle install
 
 # Start server

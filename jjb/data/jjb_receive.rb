@@ -1,17 +1,14 @@
 #!/usr/bin/env ruby
 # encoding: utf-8
 
-
 require 'bunny'
 require 'etcd'
 require 'json'
 require 'yaml'
-require 'iniparse'
 
 
-
-@rabbitmq_server = '192.168.1.229'
-@etcd_server = '192.168.1.229'
+@rabbitmq_server = 'rabbitmq'
+@etcd_server = 'etcd'
 @etcd_port = '4001'
 
 # Retrieve data from ETCD
