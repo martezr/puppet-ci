@@ -44,9 +44,16 @@ def updateconfig
   jjbconfig.close
 end
 
-
-conn = Bunny.new(:hostname => @rabbitmq_server)
-conn.start
+begin
+  retries ||= 0
+  puts 'sleeping for 30 seconds while rabbitmq boots'
+  sleep 30
+  conn = Bunny.new(:hostname => @rabbitmq_server)
+  conn.start
+rescue Bunny::TCPConnectionFailed => e
+  puts "Connection to @rabbitmq_server failed"
+  retry if (retries += 1) < 3  
+end
 
 ch   = conn.create_channel
 q    = ch.queue("jjb")
