@@ -2,7 +2,7 @@
 FROM centos:latest
 
 # Define the maintainer
-MAINTAINER Martez Reed "martez.reed@kinneygroup.com"
+MAINTAINER Martez Reed "martez.reed@greenreedtech.com"
 
 # Update system
 RUN yum -y update && yum -y upgrade && yum clean all

@@ -5,6 +5,8 @@ etcd:
     ETCD_ADVERTISE_CLIENT_URLS: http://localhost:4001,http://localhost:2379
   ports:
     - "4001:4001"
+  volumes:
+    - /puppetci/etcd:/opt/etcd/data
 sinatra:
   build: ./sinatra
   ports: 
