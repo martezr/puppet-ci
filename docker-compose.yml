@@ -25,7 +25,7 @@ jenkins:
     - "8080:8080"
     - "50000:50000"
   environment:
-      prefix: "/jenkins"
+    - JAVA_OPTS="-Djenkins.install.runSetupWizard=false"
 jjb:
   build: ./jjb
   links:
