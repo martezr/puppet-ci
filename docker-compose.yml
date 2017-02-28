@@ -11,6 +11,10 @@ sinatra:
   build: ./sinatra
   ports: 
     - "3000:3000"
+httpd:
+  build: ./httpd
+  ports:
+    - "80:80"
 rabbitmq:
   image: rabbitmq:3-management
   ports:
