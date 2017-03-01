@@ -14,7 +14,6 @@ require 'yaml'
 # Retrieve data from ETCD
 def queryetcd
   client = Etcd.client(host: @etcd_server, port: @etcd_port)
-  @controlrepo = client.get('/configuration/controlrepo').value
   @jenkins_url = client.get('/configuration/jenkins_url').value
   @jenkins_username = client.get('/configuration/jenkins_username').value
   @jenkins_password = client.get('/configuration/jenkins_password').value
@@ -44,6 +43,17 @@ def updateconfig
   jjbconfig.close
 end
 
+
+def updatejenkinssettings
+  client = Etcd.client(host: @etcd_server, port: @etcd_port)
+  @jenkins_url = client.get('/configuration/jenkins_url').value
+  @jenkins_username = client.get('/configuration/jenkins_username').value
+  @jenkins_password = client.get('/configuration/jenkins_password').value
+  @jenkins_sshkey = client.get('/configuration/jenkins_sshkey').value
+  
+  updateconfig()
+end
+
 begin
   retries ||= 0
   puts 'sleeping for 30 seconds while rabbitmq boots'
@@ -61,9 +71,7 @@ q    = ch.queue("jjb")
 puts " [*] Waiting for messages in #{q.name}."
 q.subscribe(:manual_ack => true, :block => true) do |delivery_info, properties, body|
   `echo "[x] Received #{body}" >> /var/log/jjb.log` 
-  queryetcd()
-  updatejob()
-  updateconfig()
+  updatejenkinssettings()
   `jenkins-jobs --conf jenkins_job.ini update controlrepo.yaml`
 
   ch.ack(delivery_info.delivery_tag)
