@@ -35,21 +35,21 @@ post '/jenkinssettings' do
   @client = Etcd.client(host: "etcd", port: "4001")
 
   if jenkins_url.nil?
-    `echo "jenkins_url is empty" >> /var/log/app.log`
+    @client.set('/configuration/jenkins_url', value: "http://jenkins:8080")
   else
-    @client.set('/configuration/jenkins_url', value: "#{params['jenkins_url']}")
+    @client.set('/configuration/jenkins_url', value: "#{'jenkins_url'}")
   end
 
   if jenkins_username.nil?
-    `echo "jenkins_username is empty" >> /var/log/app.log`
+    @client.set('/configuration/jenkins_username', value: "jenkins")
   else
-    @client.set('/configuration/jenkins_username', value: "#{params['jenkins_username']}")
+    @client.set('/configuration/jenkins_username', value: "#{'jenkins_username'}")
   end
 
   if jenkins_password.nil?
-    `echo "jenkins_password is empty" >> /var/log/app.log`
+    @client.set('/configuration/jenkins_password', value: "jenkins")
   else
-    @client.set('/configuration/jenkins_password', value: "#{params['jenkins_password']}")
+    @client.set('/configuration/jenkins_password', value: "#{'jenkins_password'}")
   end
 
   if jenkins_sshkey.nil?
