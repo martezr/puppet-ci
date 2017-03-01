@@ -126,7 +126,7 @@
                 </div>
                 <!-- /.box-header -->
                 <!-- form start -->
-                <form role="form" method="POST" action="http://sinatra:3000/jenkinssettings">
+                <form role="form" name="jenkinssettings" id="jenkinssettings">
                   <div class="box-body">
                     <div id="alert_placeholder"></div>
                     <div class="form-group">
@@ -299,7 +299,7 @@
               }
               bootstrap_alert.warning('Configuration Successfully Updated!');
           }
-          $('#configuration').submit( processForm );
+          $('#jenkinssettings').submit( processForm );
       })(jQuery);
     </script>
     <!-- Optionally, you can add Slimscroll and FastClick plugins.

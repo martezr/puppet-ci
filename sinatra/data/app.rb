@@ -37,7 +37,7 @@ post '/jenkinssettings' do
 
   ch   = conn.create_channel
   q    = ch.queue("jjb")
-  ch.default_exchange.publish("Update Jenkins", :routing_key => jenkinssettings)
+  ch.default_exchange.publish("Update Jenkins", :routing_key => q.name)
   puts " [x] Sent 'Update Jenkins Settings'"
   conn.close
 end
