@@ -47,7 +47,7 @@ end
 begin
   retries ||= 0
   puts 'sleeping for 30 seconds while rabbitmq boots'
-  sleep 30
+  sleep 15
   conn = Bunny.new(:hostname => @rabbitmq_server)
   conn.start
 rescue Bunny::TCPConnectionFailed => e
