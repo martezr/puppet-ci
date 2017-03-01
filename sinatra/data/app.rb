@@ -4,7 +4,7 @@ require 'etcd'
 require 'bunny'
 
 set :bind, '0.0.0.0'
-
+set :port, 80
 
 set :public_folder, 'public'
 set :views, 'views'
@@ -16,12 +16,15 @@ set :views, 'views'
 
 
 get '/' do
-  erb :home
+  File.read(File.join('public', 'index.html'))
 end
 
+get '/systemsettings' do
+  File.read(File.join('public', 'systemsettings.html'))
+end
 
-get '/configuration' do
-  erb :configure
+get '/jenkinssettings' do
+  File.read(File.join('public', 'jenkinssettings.html'))
 end
 
 post '/jenkinssettings' do
