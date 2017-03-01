@@ -95,6 +95,12 @@
                 <li class="active">
                   <a href="jenkinssettings.html"><i class="fa fa-circle-o"></i>Jenkins</a>
                 </li>
+                <li>
+                  <a href="puppetsettings.html"><i class="fa fa-circle-o"></i>Puppet</a>
+                </li>
+                <li>
+                  <a href="chefsettings.html"><i class="fa fa-circle-o"></i>Chef</a>
+                </li>
               </ul>
             </li>
           </ul>
@@ -120,43 +126,56 @@
                 </div>
                 <!-- /.box-header -->
                 <!-- form start -->
-                <form role="form">
+                <form role="form" method="POST" action="http://sinatra:3000/jenkinssettings">
                   <div class="box-body">
+                    <div id="alert_placeholder"></div>
                     <div class="form-group">
-                      <label for="controlrepo">Control Repository URL</label>
-                      <input type="text" class="form-control input-lg" name="controlrepo" id="controlrepo" placeholder="Example: https://github/martezr/controlrepo.git">
+                      <div class="radio">
+                        <label>
+                          <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">Use internal Jenkins Server</label>
+                      </div>
+                      <div class="radio">
+                        <label>
+                          <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2" class="disabled">Use external Jenkins Server (Feature disabled in current release)</label>
+                      </div>
+                      <fieldset id="externaljenkins">
+                        <div class="form-group">
+                          <label for="usr">Jenkins URL</label>
+                          <input type="text" id="usr" class="form-control input-lg" name="jenkins_url" placeholder="Example: http://jenkins.grt.local:8080">
+                        </div>
+                        <div class="form-group">
+                          <label for="usr">Jenkins Username</label>
+                          <input type="text" class="form-control input-lg" id="usr" name="jenkins_username">
+                        </div>
+                        <div class="form-group">
+                          <label for="usr">Jenkins Password</label>
+                          <input type="text" class="form-control input-lg" id="usr" name="jenkins_password">
+                        </div>
+                      </fieldset>
+                      <div class="form-group">
+                        <label>SSH Key</label>
+                        <textarea class="form-control" rows="8" name="jenkins_sshkey" id="jenkins_sshkey"></textarea>
+                      </div>
                     </div>
-                    <div class="form-group">
-                      <label for="usr">Jenkins URL</label>
-                      <input type="text" class="form-control input-lg" id="usr" name="jenkins_url" placeholder="Example: http://jenkins.grt.local:8080">
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                      <button type="submit" class="btn btn-lg btn-success">Submit</button>
                     </div>
-                    <div class="form-group">
-                      <label for="usr">Jenkins Username</label>
-                      <input type="text" id="usr" class="form-control input-lg" name="jenkins_username">
-                    </div>
-                    <div class="form-group">
-                      <label for="usr">Jenkins Password</label>
-                      <input type="text" class="form-control input-lg" id="usr" name="jenkins_password">
-                    </div>
-                  </div>
-                  <!-- /.box-body -->
-                  <div class="box-footer">
-                    <button type="submit" class="btn btn-lg btn-success">Submit</button>
                   </div>
                 </form>
+                <!-- /.box -->
+                <!-- Form Element sizes -->
+                <!-- /.box -->
+                <!-- /.box -->
+                <!-- Input addon -->
+                <!-- /.box -->
               </div>
-              <!-- /.box -->
-              <!-- Form Element sizes -->
-              <!-- /.box -->
-              <!-- /.box -->
-              <!-- Input addon -->
-              <!-- /.box -->
+              <!--/.col (left) -->
+              <!-- right column -->
+              <!--/.col (right) -->
             </div>
-            <!--/.col (left) -->
-            <!-- right column -->
-            <!--/.col (right) -->
+            <!-- /.row -->
           </div>
-          <!-- /.row -->
         </section>
         <!-- /.content -->
       </div>
@@ -251,6 +270,38 @@
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <!-- AdminLTE App -->
     <script src="dist/js/app.min.js"></script>
+    <script>
+      $("#optionsRadios2").attr("disabled",true);
+      $("#externaljenkins").prop("disabled", true)
+      $("#optionsRadios1").click(function() {$("#externaljenkins").prop("disabled", true);});
+      $("#optionsRadios2").click(function() {$("#externaljenkins").prop("disabled", false);});
+    </script>
+    <script>
+      (function($){
+          function processForm( e ){
+              $.ajax({
+                  url: 'http://sinatra:3000/jenkinssettings',
+                  dataType: 'text',
+                  type: 'post',
+                  contentType: 'application/x-www-form-urlencoded',
+                  data: $(this).serialize(),
+                  success: function( data, textStatus, jQxhr ){
+                      $('#response pre').html( data );
+                  },
+                  error: function( jqXhr, textStatus, errorThrown ){
+                      console.log( errorThrown );
+                  }
+              });
+              e.preventDefault();
+              bootstrap_alert = function() {}
+              bootstrap_alert.warning = function(message) {
+              $('#alert_placeholder').html('<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><span>'+message+'</span></div>')
+              }
+              bootstrap_alert.warning('Configuration Successfully Updated!');
+          }
+          $('#configuration').submit( processForm );
+      })(jQuery);
+    </script>
     <!-- Optionally, you can add Slimscroll and FastClick plugins.
     Both of these plugins are recommended to enhance the user experience. Slimscroll
     is required when using the fixed layout. -->
