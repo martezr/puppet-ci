@@ -9,6 +9,6 @@ COPY data/ $APP_ROOT/
 RUN gem install bundler && bundle install
 
 # Start server
-ENV PORT 3000
-EXPOSE 3000
+ENV PORT 80
+EXPOSE 80
 CMD ["ruby", "/usr/src/app/app.rb"]
