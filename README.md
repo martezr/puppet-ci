@@ -1,5 +1,44 @@
 # puppetci
 
+The intent of this project is to build out a turnkey appliance that can be deployed into an environment and provide continuous integration for Puppet. The appliance will utilize various open source technologies to provide a robust solution that can be easily scaled as needed.
+
+##Architecture
+The solution ties together various technologies as seen in the architecture diagram below.
+
+![](http://www.greenreedtech.com/content/images/2017/02/PuppetCI_Architecture.png)
+
+**Docker**   
+Docker will provide the base environment for the other services to run on. Docker provides excellent portability and scalability to the solution as it can expand to additional nodes without a major rework of the solution.
+
+**Sinatra**  
+Sinatra will present the Web UI and act as the API endpoint for the solution.
+
+**RabbitMQ**  
+RabbitMQ is the glue that connects everything. In the interest of creating an easily scalable distributed system all task requests are sent through the RabbitMQ server and picked up by the appropriate executor.
+
+**Jenkins Job Builder**  
+Jenkins Job Builder is utilized to dynamically create the Jenkins jobs on the Jenkins master.
+ 
+**Jenkins**  
+Jenkins is the core component that provides the continuous integration framework for validating and testing our code.
+
+**ELK**  
+ELK will provide visualization of data from the Puppet CI jobs with metrics such as rspec results, serverspec results, provisioning time, etc. ELK also provides a mechanism for collecting and visualizing data about the environment for things such as health metrics and container logging. 
+
+**Test Kitchen**  
+Test kitchen will be used to provide a robust harness for acceptance and integration testing on configured systems.
+
+**Vagrant**  
+Vagrant provides the provisioner utilized by Test Kitchen for spinning up machines locally in VirtualBox.
+
+**VirtualBox**
+VirtualBox provides the virtualization layer for Vagrant to provision test machines.
+
+####Additional Technologies
+Consideration has been given to adding the following technologies to the solution to provide additional functionality.
+
+* Nexus: Artifact Management  
+* Geminabox: Gem repository
 
 ## Roadmap
 
