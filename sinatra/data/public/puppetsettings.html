@@ -134,6 +134,13 @@
                         <label for="usr">Puppet Control Repository URL</label>
                         <input type="text" id="usr" class="form-control input-lg" name="puppetcontrolrepourl" placeholder="e.g. https://github.com/puppetinabox/controlrepo.git">
                       </div>
+                      <div class="form-group">
+                        <label>SSH Credentials</label>
+                        <select class="form-control select2" style="width: 100%;">
+                          <option selected="selected">None</option>
+                          <option>Jenkins</option>
+                        </select>
+                      </div>
                     </div>
                     <!-- /.box-body -->
                     <div class="box-footer">
@@ -163,19 +170,24 @@
                 <!-- form start -->
                 <form role="form" name="jenkinssettings" id="jenkinssettings">
                   <div class="box-body">
-                    <div id="alert_placeholder"></div>
                     <div class="form-group">
-                      <div class="form-group">
-                        <label for="usr">Module Name</label>
-                        <input type="text" id="usr" class="form-control input-lg" name="puppet_module_name" placeholder="e.g. windows_disable_ipv6">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="usr">Module Name</label>
+                          <input type="text" id="usr" class="form-control input-lg" name="puppet_module_name" placeholder="e.g. windows_disable_ipv6">
+                        </div>
                       </div>
-                      <div class="form-group">
-                        <label for="usr">Module URL</label>
-                        <input type="text" id="usr" class="form-control input-lg" name="puppet_module_name" placeholder="e.g. https://github.com/martezr/puppet-windows_disable_ipv6.git">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="usr">Module Branch</label>
+                          <input type="text" id="usr" class="form-control input-lg" name="puppet_module_name" placeholder="e.g. master">
+                        </div>
                       </div>
-                      <div class="form-group">
-                        <label for="usr">Module Branch</label>
-                        <input type="text" id="usr" class="form-control input-lg" name="puppet_module_name" placeholder="e.g. master">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label for="usr">Module URL</label>
+                          <input type="text" id="usr" class="form-control input-lg" name="puppet_module_name" placeholder="e.g. https://github.com/martezr/puppet-windows_disable_ipv6.git">
+                        </div>
                       </div>
                     </div>
                     <!-- /.box-body -->
