@@ -8,7 +8,7 @@
         url: rabbitmq
         branches:
         - origin/pr/production
-        credentials-id:
+        credentials-id: jenkinsssh
         browser: auto
     triggers:
     - pollscm:

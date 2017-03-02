@@ -42,6 +42,43 @@ def adddockerjenkinscreds
 
 end
 
+# Add Jenkins SSH Key Credentials
+def addjenkinssshcredentials
+  client = Etcd.client(host: 'etcd', port: '4001')
+  jenkins_sshkey = client.get('/configuration/jenkins_sshkey').value
+
+  uri = URI.parse("http://#@jenkins_server:8080/credentials/store/system/domain/_/createCredentials")
+  request = Net::HTTP::Post.new(uri)
+  request.body = "json={  
+    \"\": \"0\",
+    \"credentials\": {
+      \"scope\": \"GLOBAL\",
+      \"id\": \"jenkinsssh\",
+      \"username\": \"jenkinsssh\",
+      \"password\": \"\",
+      \"privateKeySource\": {
+        \"stapler-class\": \"com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey$DirectEntryPrivateKeySource\",
+        \"privateKey\": \"#{jenkins_sshkey}\",
+      },
+      \"description\": \"apicredentials\",
+      \"stapler-class\": \"com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey\"
+    }
+  }"
+
+  req_options = {
+    use_ssl: uri.scheme == "https",
+  }
+
+  response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
+    http.request(request)
+  end
+
+  puts response.code
+  puts response.body
+
+  puts "Add Jenkins SSH Key credentials to Jenkins"
+end
+
 
 
 # Retrieve data from ETCD
@@ -106,6 +143,7 @@ q.subscribe(:manual_ack => true, :block => true) do |delivery_info, properties, 
   `echo "[x] Received #{body}" >> /var/log/jjb.log` 
   updatejenkinssettings()
   adddockerjenkinscreds()
+  addjenkinssshcredentials
   `jenkins-jobs --conf jenkins_job.ini update controlrepo.yaml`
 
   ch.ack(delivery_info.delivery_tag)
