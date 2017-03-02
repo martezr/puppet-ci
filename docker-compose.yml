@@ -23,7 +23,7 @@ rabbitmq:
     - "4369:4369"
     - "25672:25672"
 jenkins:
-  image: jenkins:latest
+  build: ./jenkins
   ports:
     - "8080:8080"
     - "50000:50000"

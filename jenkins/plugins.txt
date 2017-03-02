@@ -1,0 +1,14 @@
+bouncycastle-api:2.16.0
+credentials:2.1.13
+ssh-credentials:1.13
+structs:1.6
+workflow-step-api:2.9
+workflow-scm-step:2.4
+git-client:2.3.0
+scm-api:2.0.8
+junit:1.20
+display-url-api:1.1.1
+mailer:1.19
+script-security:1.27
+matrix-project:1.8
+git:3.0.5
