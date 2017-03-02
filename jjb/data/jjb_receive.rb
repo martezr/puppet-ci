@@ -143,7 +143,7 @@ q.subscribe(:manual_ack => true, :block => true) do |delivery_info, properties, 
   `echo "[x] Received #{body}" >> /var/log/jjb.log` 
   updatejenkinssettings()
   adddockerjenkinscreds()
-  addjenkinssshcredentials
+  addjenkinssshcredentials()
   `jenkins-jobs --conf jenkins_job.ini update controlrepo.yaml`
 
   ch.ack(delivery_info.delivery_tag)

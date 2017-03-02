@@ -31,6 +31,8 @@ post '/jenkinssettings' do
   jenkins_username = params['jenkins_username']
   jenkins_password = params['jenkins_password']
   jenkins_sshkey = params['jenkins_sshkey']
+  # Strip carriage returns added by the text area form
+  jenkins_sshkey = jenkins_sshkey.gsub(/\r\n/,'')
 
   @client = Etcd.client(host: "etcd", port: "4001")
 
