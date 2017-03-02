@@ -5,11 +5,44 @@ require 'bunny'
 require 'etcd'
 require 'json'
 require 'yaml'
-
+require 'net/http'
+require 'uri'
 
 @rabbitmq_server = 'rabbitmq'
 @etcd_server = 'etcd'
 @etcd_port = '4001'
+@jenkins_server = 'jenkins'
+
+# Add Docker Jenkins Credentials
+def adddockerjenkinscreds
+
+  uri = URI.parse("http://#@jenkins_server:8080/credentials/store/system/domain/_/createCredentials")
+  request = Net::HTTP::Post.new(uri)
+  request.body = "json={  
+    \"\": \"0\",
+    \"credentials\": {
+      \"scope\": \"GLOBAL\",
+      \"id\": \"dockerjenkins\",
+      \"username\": \"jenkins\",
+      \"password\": \"jenkins\",
+      \"description\": \"apicredentials\",
+      \"stapler-class\": \"com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl\"
+    }
+  }"
+
+  req_options = {
+    use_ssl: uri.scheme == "https",
+  }
+
+  response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
+    http.request(request)
+  end
+
+  puts "Added Docker credentials to Jenkins"
+
+end
+
+
 
 # Retrieve data from ETCD
 def queryetcd
@@ -56,7 +89,7 @@ end
 
 begin
   retries ||= 0
-  puts 'sleeping for 30 seconds while rabbitmq boots'
+  puts 'sleeping for 15 seconds while rabbitmq boots'
   sleep 15
   conn = Bunny.new(:hostname => @rabbitmq_server)
   conn.start
@@ -72,6 +105,7 @@ puts " [*] Waiting for messages in #{q.name}."
 q.subscribe(:manual_ack => true, :block => true) do |delivery_info, properties, body|
   `echo "[x] Received #{body}" >> /var/log/jjb.log` 
   updatejenkinssettings()
+  adddockerjenkinscreds()
   `jenkins-jobs --conf jenkins_job.ini update controlrepo.yaml`
 
   ch.ack(delivery_info.delivery_tag)

@@ -118,7 +118,7 @@
         <section class="content">
           <div class="row">
             <!-- left column -->
-            <div class="col-md-11">
+            <div class="col-md-12">
               <!-- general form elements -->
               <div class="box box-primary">
                 <div class="box-header with-border">
@@ -272,35 +272,35 @@
     <script src="dist/js/app.min.js"></script>
     <script>
       $("#optionsRadios2").attr("disabled",true);
-      $("#externaljenkins").prop("disabled", true)
-      $("#optionsRadios1").click(function() {$("#externaljenkins").prop("disabled", true);});
-      $("#optionsRadios2").click(function() {$("#externaljenkins").prop("disabled", false);});
+              $("#externaljenkins").prop("disabled", true)
+              $("#optionsRadios1").click(function() {$("#externaljenkins").prop("disabled", true);});
+              $("#optionsRadios2").click(function() {$("#externaljenkins").prop("disabled", false);});
     </script>
     <script>
       (function($){
-          function processForm( e ){
-              $.ajax({
-                  url: '/jenkinssettings',
-                  dataType: 'text',
-                  type: 'post',
-                  contentType: 'application/x-www-form-urlencoded',
-                  data: $(this).serialize(),
-                  success: function( data, textStatus, jQxhr ){
-                      $('#response pre').html( data );
-                  },
-                  error: function( jqXhr, textStatus, errorThrown ){
-                      console.log( errorThrown );
+                  function processForm( e ){
+                      $.ajax({
+                          url: '/jenkinssettings',
+                          dataType: 'text',
+                          type: 'post',
+                          contentType: 'application/x-www-form-urlencoded',
+                          data: $(this).serialize(),
+                          success: function( data, textStatus, jQxhr ){
+                              $('#response pre').html( data );
+                          },
+                          error: function( jqXhr, textStatus, errorThrown ){
+                              console.log( errorThrown );
+                          }
+                      });
+                      e.preventDefault();
+                      bootstrap_alert = function() {}
+                      bootstrap_alert.warning = function(message) {
+                      $('#alert_placeholder').html('<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><span>'+message+'</span></div>')
+                      }
+                      bootstrap_alert.warning('Configuration Successfully Updated!');
                   }
-              });
-              e.preventDefault();
-              bootstrap_alert = function() {}
-              bootstrap_alert.warning = function(message) {
-              $('#alert_placeholder').html('<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><span>'+message+'</span></div>')
-              }
-              bootstrap_alert.warning('Configuration Successfully Updated!');
-          }
-          $('#jenkinssettings').submit( processForm );
-      })(jQuery);
+                  $('#jenkinssettings').submit( processForm );
+              })(jQuery);
     </script>
     <!-- Optionally, you can add Slimscroll and FastClick plugins.
     Both of these plugins are recommended to enhance the user experience. Slimscroll
