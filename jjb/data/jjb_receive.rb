@@ -91,8 +91,8 @@ end
 
 # Update JJB Control Repo Job
 def updatejob
-  client = Etcd.client(host: @etcd_server, port: @etcd_port)
-  @controlrepo = client.set('/configuration/puppetcontrolrepourl').value
+  client = Etcd.client(host: 'etcd', port: '4001')
+  @controlrepo = client.get('/configuration/puppetcontrolrepourl').value
   data = YAML.load(File.open('controlrepo.yaml'))
   data[0]['job']['scm'][0]['git']['url'] = @controlrepo
 
