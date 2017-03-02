@@ -25,7 +25,7 @@ def adddockerjenkinscreds
       \"id\": \"dockerjenkins\",
       \"username\": \"jenkins\",
       \"password\": \"jenkins\",
-      \"description\": \"apicredentials\",
+      \"description\": \"Docker Credentials\",
       \"stapler-class\": \"com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl\"
     }
   }"
@@ -60,7 +60,7 @@ def addjenkinssshcredentials
         \"stapler-class\": \"com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey$DirectEntryPrivateKeySource\",
         \"privateKey\": \"#{jenkins_sshkey}\",
       },
-      \"description\": \"apicredentials\",
+      \"description\": \"Puppet Repo Credentials\",
       \"stapler-class\": \"com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey\"
     }
   }"
@@ -91,6 +91,8 @@ end
 
 # Update JJB Control Repo Job
 def updatejob
+  client = Etcd.client(host: @etcd_server, port: @etcd_port)
+  @controlrepo = client.set('/configuration/puppetcontrolrepourl').value
   data = YAML.load(File.open('controlrepo.yaml'))
   data[0]['job']['scm'][0]['git']['url'] = @controlrepo
 
@@ -141,6 +143,7 @@ q    = ch.queue("jjb")
 puts " [*] Waiting for messages in #{q.name}."
 q.subscribe(:manual_ack => true, :block => true) do |delivery_info, properties, body|
   `echo "[x] Received #{body}" >> /var/log/jjb.log` 
+  updatejob()
   updatejenkinssettings()
   adddockerjenkinscreds()
   addjenkinssshcredentials()

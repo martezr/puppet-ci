@@ -72,12 +72,19 @@ end
 
 post '/puppetsettings' do
   params.to_s
-  tempHash = {
-    "Server" => "#{params['controlrepo']}",
-  }
-  File.open("public/spells.json","w") do |f|
-    f.write(tempHash.to_json)
-  end
+  repo_url = params['puppetcontrolrepourl']
+
+  @client = Etcd.client(host: "etcd", port: "4001")
+  @client.set('/configuration/puppetcontrolrepourl', value: "#{repo_url}")
+
+  conn = Bunny.new(:hostname => 'rabbitmq')
+  conn.start
+
+  ch   = conn.create_channel
+  q    = ch.queue("jjb")
+  ch.default_exchange.publish("Update Puppet", :routing_key => q.name)
+  puts " [x] Sent 'Update Puppet Settings'"
+  conn.close
 end
 
 post '/update' do
