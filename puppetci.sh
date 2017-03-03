@@ -16,9 +16,9 @@ setenforce 0
 
 
 # Set docker host 
-export CONTAINER_HOST=$(ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+')
+CONTAINER_HOST=$(ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+')
+sed -i "s#tcp://:2375#tcp://$CONTAINER_HOST:2375#" jenkins/config.xml
 
-# 
 ansible-playbook /etc/ansible/install.yml && docker-compose up -d
 cd docker-jenkins-slave
 sh build.sh
