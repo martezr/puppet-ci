@@ -7,7 +7,7 @@
     - git:
         url: rabbitmq
         branches:
-        - origin/pr/production
+        - */production
         credentials-id: jenkinsssh
         browser: auto
     triggers:
