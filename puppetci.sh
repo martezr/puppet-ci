@@ -5,6 +5,7 @@ yum -y install epel-release
 # Install Ansible
 yum -y install git ansible libselinux-python
 
+cd puppet-ci
 rm -Rf /etc/ansible
 cp -R ansible/ /etc/
 setenforce 0
