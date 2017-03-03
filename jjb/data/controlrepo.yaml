@@ -11,8 +11,8 @@
         credentials-id: jenkinsssh
         browser: auto
     triggers:
-    - pollscm:
-        cron: ''
+#    - pollscm:
+#        cron: ''
     disabled: false
     node: puppetunit
     wrappers:
