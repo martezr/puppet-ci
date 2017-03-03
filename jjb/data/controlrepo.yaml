@@ -9,8 +9,11 @@
         branches:
         - production
         credentials-id: jenkinsssh
+        skip-tag: true
+        per-build-tag: false
+        credentials-id: jenkinsssh
         browser: auto
-    triggers:
+#    triggers:
 #    - pollscm:
 #        cron: ''
     disabled: false
