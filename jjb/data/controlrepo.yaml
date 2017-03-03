@@ -14,7 +14,7 @@
     - pollscm:
         cron: ''
     disabled: false
-    node: 
+    node: puppetunit
     wrappers:
     - workspace-cleanup
     builders:
@@ -22,6 +22,10 @@
         #!/bin/bash
 
         # Install prerequisite software
+        chmod 777 /home/jenkins/.profile
+        ~/.profile [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
+
+        rvm use 2.3.1 --install --fuzzy
         gem install r10k --no-ri --no-rdoc
         gem install puppet --no-ri --no-rdoc
 
