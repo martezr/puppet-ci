@@ -1,14 +1,18 @@
 FROM centos:7
 
+ENV PATH /home/sinatra/bin:$PATH
+ENV APP_ROOT /home/sinatra
+
+RUN groupadd sinatra && useradd -m -g sinatra sinatra
 RUN yum -y install rubygems
-ENV APP_ROOT /usr/src/app
+USER sinatra
 RUN mkdir -p $APP_ROOT
 WORKDIR $APP_ROOT
-COPY Gemfile* $APP_HOME/
+COPY Gemfile* $APP_ROOT/
 COPY data/ $APP_ROOT/
 RUN gem install bundler && bundle install
 
 # Start server
-ENV PORT 80
-EXPOSE 80
-CMD ["ruby", "/usr/src/app/app.rb"]
+EXPOSE 8000
+CMD ["ruby", "/home/sinatra/app.rb"]
+

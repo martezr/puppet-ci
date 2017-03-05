@@ -10,7 +10,7 @@ etcd:
 sinatra:
   build: ./sinatra
   ports: 
-    - "80:80"
+    - "80:8000"
   links:
     - etcd
     - rabbitmq

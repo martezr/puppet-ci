@@ -4,7 +4,7 @@ require 'etcd'
 require 'bunny'
 
 set :bind, '0.0.0.0'
-set :port, 80
+set :port, 8000
 
 set :public_folder, 'public'
 set :views, 'views'
