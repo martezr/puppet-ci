@@ -86,12 +86,3 @@ post '/puppetsettings' do
   puts " [x] Sent 'Update Puppet Settings'"
   conn.close
 end
-
-post '/update' do
-  `ruby public/update.rb`
-end
-
-get '/controlrepo' do
-    content_type :json
-    File.read('public/spells.json')
-end
