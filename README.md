@@ -7,6 +7,14 @@ The solution ties together various technologies as seen in the architecture diag
 
 ![](http://www.greenreedtech.com/content/images/2017/02/PuppetCI_Architecture.png)
 
+| container | function                      | cpu limit | ram limit | exposed ports                  |
+|-----------|-------------------------------|-----------|-----------|--------------------------------|
+| sinatra   | web interface                 | 0.5       | 25M       | 80                             |
+| etcd      | key value store               | 0.5       | 25M       | 4001                           |
+| rabbitmq  | message queue                 | 0.5       | 100M      | 15672, 5671, 5672, 4369, 25672 |
+| jenkins   | continuous integration server | 0.5       | 800M      | 8080, 50000                    |
+| jjb       | jenkins job builder container | 0.25      | 25M       | n/a                            |
+
 **Docker**   
 Docker will provide the base environment for the other services to run on. Docker provides excellent portability and scalability to the solution as it can expand to additional nodes without a major rework of the solution.
 
