@@ -86,3 +86,41 @@ post '/puppetsettings' do
   puts " [x] Sent 'Update Puppet Settings'"
   conn.close
 end
+
+post '/addpuppetmodule' do
+
+  # Check if key exists and retrieve value
+  @client = Etcd.client(host: 'etcd', port: '4001')
+  test_key = @client.exists?('/configuration/module_number')
+
+  if test_key
+    @module_number = @client.get('/configuration/module_number').value
+  else
+    @module_number = '0'
+  end
+
+  params.to_s
+  module_name = params['module_name']
+  module_url = params['module_url']
+  module_branch = params['module_branch']
+
+  # Increment previous etcd value
+  module_number = module_number.to_i
+  module_number += 1
+  module_number = module_number.to_s
+  client.set('/configuration/module_number', value: "#{module_number}")
+
+  client.set("/configuration/modules/module#{module_number}/name", value "#{module_name}")
+  client.set("/configuration/modules/module#{module_number}/url", value: "#{module_url}")
+  client.set("/configuration/modules/module#{module_number}/branch", value: "#{module_branch}")
+
+  conn = Bunny.new(:hostname => 'rabbitmq')
+  conn.start
+
+  ch   = conn.create_channel
+  q    = ch.queue("jjb")
+  ch.default_exchange.publish("Add Puppet Module", :routing_key => q.name)
+  puts " [x] Sent 'Added Puppet Module'"
+  conn.close
+
+end
