@@ -1,40 +1,67 @@
-etcd:
-  image: quay.io/coreos/etcd:v2.2.0
-  environment:
-    ETCD_LISTEN_CLIENT_URLS: http://0.0.0.0:4001,http://0.0.0.0:2379
-    ETCD_ADVERTISE_CLIENT_URLS: http://localhost:4001,http://localhost:2379
-  ports:
-    - "4001:4001"
-  volumes:
-    - /puppetci/etcd:/opt/etcd/data
-sinatra:
-  build: ./sinatra
-  ports: 
-    - "80:8000"
-  links:
-    - etcd
-    - rabbitmq
-rabbitmq:
-  image: rabbitmq:3-management
-  ports:
-    - "15672:15672"
-    - "5671:5671"
-    - "5672:5672"
-    - "4369:4369"
-    - "25672:25672"
-jenkins:
-  build: ./jenkins
-  ports:
-    - "8080:8080"
-    - "50000:50000"
-  environment:
-    - JAVA_OPTS="-Djenkins.install.runSetupWizard=false"
-jjb:
-  build: ./jjb
-  links:
-    - etcd
-    - rabbitmq
-    - jenkins
+version: "3.0"
+services:
+  etcd:
+    image: quay.io/coreos/etcd:v2.2.0
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 25M
+    environment:
+      ETCD_LISTEN_CLIENT_URLS: http://0.0.0.0:4001,http://0.0.0.0:2379
+      ETCD_ADVERTISE_CLIENT_URLS: http://localhost:4001,http://localhost:2379
+    ports:
+      - "4001:4001"
+    volumes:
+      - /puppetci/etcd:/opt/etcd/data
+  sinatra:
+    build: ./sinatra
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 25M
+    ports: 
+      - "80:8000"
+    links:
+      - etcd
+      - rabbitmq
+  rabbitmq:
+    image: rabbitmq:3-management
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 100M
+    ports:
+      - "15672:15672"
+      - "5671:5671"
+      - "5672:5672"
+      - "4369:4369"
+      - "25672:25672"
+  jenkins:
+    build: ./jenkins
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 800M
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    environment:
+      - JAVA_OPTS="-Djenkins.install.runSetupWizard=false"
+  jjb:
+    build: ./jjb
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 25M
+    links:
+      - etcd
+      - rabbitmq
+      - jenkins
 #elasticsearch:
 #  image: elasticsearch:latest
 #  command: elasticsearch
