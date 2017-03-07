@@ -110,7 +110,7 @@ post '/addpuppetmodule' do
   module_number = module_number.to_s
   client.set('/configuration/module_number', value: "#{module_number}")
 
-  client.set("/configuration/modules/module#{module_number}/name", value "#{module_name}")
+  client.set("/configuration/modules/module#{module_number}/name", value: "#{module_name}")
   client.set("/configuration/modules/module#{module_number}/url", value: "#{module_url}")
   client.set("/configuration/modules/module#{module_number}/branch", value: "#{module_branch}")
 
