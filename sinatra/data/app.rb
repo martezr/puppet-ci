@@ -100,9 +100,9 @@ post '/addpuppetmodule' do
   end
 
   params.to_s
-  module_name = params['module_name']
-  module_url = params['module_url']
-  module_branch = params['module_branch']
+  module_name = params['puppet_module_name']
+  module_url = params['puppet_module_url']
+  module_branch = params['puppet_module_branch']
 
   # Increment previous etcd value
   module_number = module_number.to_i

@@ -166,25 +166,25 @@
                 </div>
                 <!-- /.box-header -->
                 <!-- form start -->
-                <form role="form" name="jenkinssettings" id="jenkinssettings">
+                <form role="form" name="addpuppetmodule" id="addpuppetmodule">
                   <div class="box-body">
                     <div class="form-group">
                       <div class="col-md-6">
                         <div class="form-group">
                           <label for="usr">Module Name</label>
-                          <input type="text" id="usr" class="form-control input-lg" name="puppet_module_name" placeholder="e.g. windows_disable_ipv6">
+                          <input type="text" id="puppet_module_name" class="form-control input-lg" name="puppet_module_name" placeholder="e.g. windows_disable_ipv6">
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="form-group">
                           <label for="usr">Module Branch</label>
-                          <input type="text" id="usr" class="form-control input-lg" name="puppet_module_name" placeholder="e.g. master">
+                          <input type="text" id="puppet_module_branch" class="form-control input-lg" name="puppet_module_branch" placeholder="e.g. master">
                         </div>
                       </div>
                       <div class="col-md-12">
                         <div class="form-group">
                           <label for="usr">Module URL</label>
-                          <input type="text" id="usr" class="form-control input-lg" name="puppet_module_name" placeholder="e.g. https://github.com/martezr/puppet-windows_disable_ipv6.git">
+                          <input type="text" id="puppet_module_url" class="form-control input-lg" name="puppet_module_url" placeholder="e.g. https://github.com/martezr/puppet-windows_disable_ipv6.git">
                         </div>
                       </div>
                     </div>
@@ -227,31 +227,26 @@
                       <tr>
                         <th>Name</th>
                         <th>Branch</th>
-                        
                         <th>URL</th>
                       </tr>
                       <tr>
                         <td>azure</td>
                         <td>master</td>
-                        
                         <td>https://github.com/puppetlabs/puppetlabs-azure.git</td>
                       </tr>
                       <tr>
                         <td>iis</td>
                         <td>master</td>
-                        
                         <td>https://github.com/puppetlabs/puppetlabs-iis.git</td>
                       </tr>
                       <tr>
                         <td>dsc</td>
                         <td>master</td>
-                        
                         <td>https://github.com/puppetlabs/puppetlabs-dsc.git</td>
                       </tr>
                       <tr>
                         <td>registry</td>
                         <td>master</td>
-                        
                         <td>https://github.com/puppetlabs/puppetlabs-registry.git</td>
                       </tr>
                     </tbody>
@@ -357,29 +352,55 @@
     <script src="dist/js/app.min.js"></script>
     <script>
       (function($){
-                  function processForm( e ){
-                      $.ajax({
-                          url: '/puppetsettings',
-                          dataType: 'text',
-                          type: 'post',
-                          contentType: 'application/x-www-form-urlencoded',
-                          data: $(this).serialize(),
-                          success: function( data, textStatus, jQxhr ){
-                              $('#response pre').html( data );
-                          },
-                          error: function( jqXhr, textStatus, errorThrown ){
-                              console.log( errorThrown );
+                          function processForm( e ){
+                              $.ajax({
+                                  url: '/puppetsettings',
+                                  dataType: 'text',
+                                  type: 'post',
+                                  contentType: 'application/x-www-form-urlencoded',
+                                  data: $(this).serialize(),
+                                  success: function( data, textStatus, jQxhr ){
+                                      $('#response pre').html( data );
+                                  },
+                                  error: function( jqXhr, textStatus, errorThrown ){
+                                      console.log( errorThrown );
+                                  }
+                              });
+                              e.preventDefault();
+                              bootstrap_alert = function() {}
+                              bootstrap_alert.warning = function(message) {
+                              $('#alert_placeholder').html('<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><span>'+message+'</span></div>')
+                              }
+                              bootstrap_alert.warning('Configuration Successfully Updated!');
                           }
-                      });
-                      e.preventDefault();
-                      bootstrap_alert = function() {}
-                      bootstrap_alert.warning = function(message) {
-                      $('#alert_placeholder').html('<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><span>'+message+'</span></div>')
-                      }
-                      bootstrap_alert.warning('Configuration Successfully Updated!');
-                  }
-                  $('#puppetcontrolrepo').submit( processForm );
-              })(jQuery);
+                          $('#puppetcontrolrepo').submit( processForm );
+                      })(jQuery);
+    </script>
+    <script>
+      (function($){
+                          function processForm( e ){
+                              $.ajax({
+                                  url: '/addpuppetmodule',
+                                  dataType: 'text',
+                                  type: 'post',
+                                  contentType: 'application/x-www-form-urlencoded',
+                                  data: $(this).serialize(),
+                                  success: function( data, textStatus, jQxhr ){
+                                      $('#response pre').html( data );
+                                  },
+                                  error: function( jqXhr, textStatus, errorThrown ){
+                                      console.log( errorThrown );
+                                  }
+                              });
+                              e.preventDefault();
+                              bootstrap_alert = function() {}
+                              bootstrap_alert.warning = function(message) {
+                              $('#alert_placeholder').html('<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><span>'+message+'</span></div>')
+                              }
+                              bootstrap_alert.warning('Configuration Successfully Updated!');
+                          }
+                          $('#addpuppetmodule').submit( processForm );
+                      })(jQuery);
     </script>
     <!-- Optionally, you can add Slimscroll and FastClick plugins.
     Both of these plugins are recommended to enhance the user experience. Slimscroll
