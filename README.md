@@ -51,12 +51,12 @@ Consideration has been given to adding the following technologies to the solutio
 ## Roadmap
 
 Release 0.0.1
-* Update readme.md
-* Add roadmap
+* ~~Update readme.md~~
+* ~~Add roadmap~~
 * Clean up code
-* Add Jenkins slave images
+* ~~Add Jenkins slave images~~
 * Add temporary home dashboard
-* Rework configuration page
+* ~~Rework configuration page~~
 * Add API action to trigger Jenkins jobs
 
 Release 0.0.2
@@ -76,8 +76,7 @@ Release 0.0.3
 * Add test kitchen support
 * Add test kitchen containers
 * Add test kitchen docker support
-* Begin UI migration to AngularJS
-
+* ~~Begin UI migration to AngularJS~~
 
 Release 0.0.4
 * Add serverspec support
@@ -89,4 +88,3 @@ Release 0.0.5
 * Add authentication
 * Add SSO
 * Add configuration backup
-
