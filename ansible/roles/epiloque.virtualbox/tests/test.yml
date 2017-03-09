@@ -1,0 +1,11 @@
+- name: Bring up docker containers
+  hosts: localhost
+  roles:
+    - role: provision_docker
+      provision_docker_inventory_group: "{{ groups['test-images'] }}"
+
+- hosts: test-images
+  vars:
+    virtualbox_role_debug: true
+  roles:
+  - role: epiloque.virtualbox

@@ -1,0 +1,5 @@
+- src: epiloque.provision_docker
+  name: provision_docker
+
+- src: epiloque.epel
+  name: epiloque.epel

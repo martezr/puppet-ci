@@ -1,0 +1,18 @@
+galaxy_info:
+  author: Mark Milstein
+  description: virtualbox role
+  issue_tracker_url: https://github.com/epiloque/ansible-virtualbox/issues
+  license: BSD
+  min_ansible_version: 1.2
+  github_branch: master
+  platforms:
+  - name: EL
+    versions:
+    - 7
+
+  galaxy_tags:
+  - epiloque
+  - virtualbox
+
+dependencies:
+   - { role: epiloque.epel }

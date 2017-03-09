@@ -1,0 +1,56 @@
+---
+
+- name: install virtualbox dependencies
+  action: "{{ ansible_pkg_mgr }} name={{ item }} state=present"
+  with_items:
+    - binutils
+    - gcc
+    - make
+    - patch
+    - libgomp
+    - glibc-headers
+    - glibc-devel
+    - kernel-headers
+    - kernel-devel
+    - dkms
+
+- name: add virtualbox repository
+  copy:
+    src: files/virtualbox.repo
+    dest: /etc/yum.repos.d/virtualbox.repo
+    owner: root
+    group: root
+    mode: 0644
+
+- name: install virtualbox
+  yum:
+    name: VirtualBox-5.1
+    state: present
+    enablerepo: virtualbox
+    update_cache: yes
+  register: virtualbox_installed
+
+- name: get kernel version
+  shell: uname -r
+  register: virtualbox_kernel_version
+  changed_when: false
+  when: virtualbox_installed.changed
+
+- name: install kernel-devel
+  yum:
+    name: "kernel-devel-{{ virtualbox_kernel_version.stdout }}"
+    state: present
+    enablerepo: virtualbox
+    update_cache: yes
+  register: virtualbox_installed
+  when: virtualbox_installed.changed
+  ignore_errors: virutalbox_role_debug
+
+- name: run vboxdrv setup
+  shell: >
+    export KERN_DIR="/usr/src/kernels/$(uname -r)" && \
+    /usr/lib/virtualbox/vboxdrv.sh setup
+    args:
+      executable: /bin/bash
+  when: virtualbox_installed.changed
+  ignore_errors: virutalbox_role_debug
