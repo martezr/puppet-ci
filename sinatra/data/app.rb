@@ -87,6 +87,60 @@ post '/puppetsettings' do
   conn.close
 end
 
+get '/puppetmodules' do
+
+  def jsonoutput(name,url,branch)
+    tempHash = {
+      "name" => name,
+      "url" => url,
+      "branch" => branch
+    }
+    return tempHash.to_json
+  end
+
+
+  uri = URI.parse("http://etcd:2379/v2/keys/configuration/modules")
+  response = Net::HTTP.get_response(uri)
+
+  result = response.body
+
+  parsed = JSON.parse(result)
+  modules = parsed['node']['nodes']
+
+  @output = []
+
+  for puppetmodule in modules
+    modulepath = puppetmodule['key']
+    uribase = "http://etcd:2379/v2/keys" + modulepath
+    uri = URI.parse("#{uribase}")
+    response = Net::HTTP.get_response(uri)
+    result = response.body
+    parsed = JSON.parse(result)
+    keys = parsed['node']['nodes']
+    for key in keys
+      teststring = key['key']
+      if teststring.include? "name"
+        @name = key['value']
+      elsif teststring.include? "branch"
+        @branch = key['value']
+      elsif teststring.include? "url"
+        @url = key['value']
+      end
+    end
+    @output << jsonoutput(@name,@url,@branch)
+  end
+
+  finaloutput = JSON.pretty_generate(@output).gsub('\\', '').gsub('}"', '}').gsub('"{', '{')
+
+  open('test.json', 'w') { |f|
+    f.puts(finaloutput)
+  }
+  
+  content_type :json
+  File.read('test.json')
+
+end
+
 post '/addpuppetmodule' do
 
   # Check if key exists and retrieve value
