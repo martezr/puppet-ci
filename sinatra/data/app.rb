@@ -90,13 +90,13 @@ end
 post '/addpuppetmodule' do
 
   # Check if key exists and retrieve value
-  @client = Etcd.client(host: 'etcd', port: '4001')
-  test_key = @client.exists?('/configuration/module_number')
+  client = Etcd.client(host: 'etcd', port: '4001')
+  test_key = client.exists?('/configuration/module_number')
 
   if test_key
-    @module_number = @client.get('/configuration/module_number').value
+    module_number = client.get('/configuration/module_number').value
   else
-    @module_number = '0'
+    module_number = '0'
   end
 
   params.to_s
