@@ -7,9 +7,12 @@
       - "-H unix:///var/run/docker.sock"
   roles:
     - role: wunzeco.docker
-    - role: epiloque.virtualbox
   tasks:
     - file:
         path: /puppetci/etcd
+        state: directory
+        mode: 0755
+    - file:
+        path: /puppetci/gemserver
         state: directory
         mode: 0755
