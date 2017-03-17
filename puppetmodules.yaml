@@ -1,0 +1,11 @@
+- project:
+    name: puppet-modules
+    jobs:
+      - puppet-module-{name}:
+         name: test
+         url: url1
+         branch: branch1
+      - puppet-module-{name}:
+         name: test2
+         url: url2
+         branch: branch2

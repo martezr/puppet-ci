@@ -1,0 +1,27 @@
+- job-template:
+    name: puppet-module-{name}
+    project-type: freestyle
+    scm:
+      - git:
+          url: "{url}"
+          branches:
+            - "{branch}"
+          skip-tag: true
+          per-build-tag: false
+          credentials-id: jenkinsssh
+          browser: auto
+    node: puppetunit
+    disabled: false
+    triggers:
+      - pollscm:
+          cron: ""
+    builders:
+    - shell: |
+        #!/bin/bash
+
+        # Install prerequisite software
+        chmod 777 /home/jenkins/.profile
+        ~/.profile [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
+        rvm install 2.3.1
+        gem install bundler
+        bundle install
