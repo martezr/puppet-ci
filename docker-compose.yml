@@ -10,10 +10,11 @@ services:
     environment:
       ETCD_LISTEN_CLIENT_URLS: http://0.0.0.0:4001,http://0.0.0.0:2379
       ETCD_ADVERTISE_CLIENT_URLS: http://localhost:4001,http://localhost:2379
+      ETCD_DATA_DIR: /etcd-data
     ports:
       - "4001:4001"
     volumes:
-      - /puppetci/etcd:/opt/etcd/data
+      - /puppetci/etcd:/etcd-data
   gemserver:
     build: ./gemserver
     ports: 
@@ -57,6 +58,8 @@ services:
       - "50000:50000"
     environment:
       - JAVA_OPTS="-Djenkins.install.runSetupWizard=false"
+    volumes:
+      - /puppetci/jenkins:/var/jenkins_home
   jjb:
     build: ./jjb
     deploy:

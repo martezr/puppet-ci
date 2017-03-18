@@ -16,3 +16,7 @@
         path: /puppetci/gemserver
         state: directory
         mode: 0755
+    - file:
+        path: /puppetci/jenkins
+        state: directory
+        mode: 0755
