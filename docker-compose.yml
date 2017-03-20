@@ -21,6 +21,12 @@ services:
       - "9292:9292"
     volumes:
       - /puppetci/gemserver:/gemrepo
+  nexus:
+    image: sonatype/nexus3
+    ports:
+      - "8081:8081"
+    volumes:
+      - /puppetci/nexus:/nexus-data
   sinatra:
     build: ./sinatra
     deploy:
