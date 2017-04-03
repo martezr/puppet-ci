@@ -64,8 +64,8 @@ services:
       - "50000:50000"
     environment:
       - JAVA_OPTS="-Djenkins.install.runSetupWizard=false"
-    volumes:
-      - /puppetci/jenkins:/var/jenkins_home
+#    volumes:
+#      - /puppetci/jenkins:/var/jenkins_home
   jjb:
     build: ./jjb
     deploy:
