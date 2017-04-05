@@ -11,16 +11,16 @@
     - file:
         path: /puppetci/etcd
         state: directory
-        mode: 0755
+        mode: 0777
     - file:
         path: /puppetci/gemserver
         state: directory
-        mode: 0755
+        mode: 0777
     - file:
         path: /puppetci/jenkins
         state: directory
-        mode: 0755
+        mode: 0777
     - file:
         path: /puppetci/nexus
         state: directory
-        mode: 0755
+        mode: 0777

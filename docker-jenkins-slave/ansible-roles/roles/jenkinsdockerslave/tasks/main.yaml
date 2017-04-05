@@ -7,19 +7,11 @@
   user: name=jenkins shell=/bin/bash groups=wheel append=yes
 - name: Install Java 1.8.0
   yum: name=java-1.8.0-openjdk state=present
+- name: Install bzip2
+  yum: name=bzip2 state=present
 - name: Create root ssh directory
   file: path=/home/root/.ssh state=directory
 - name: Create jenkins ssh directory
   file: path=/home/jenkins/.ssh state=directory
 - name: Copy sudoers
   copy: src=sudoers dest=/etc/sudoers
-#- name: Copy ssh_known_hosts
-#  copy: src=ssh_known_hosts dest=/etc/ssh/ssh_known_hosts
-#- name: Copy Jenkins private key for jenkins user
-#  copy: src=id_rsa dest=/home/jenkins/.ssh/id_rsa
-#- name: Copy Jenkins public key for jenkins user
-#  copy: src=id_rsa.pub dest=/home/jenkins/.ssh/id_rsa.pub
-#- name: Copy Jenkins private key for root user
-#  copy: src=id_rsa dest=/home/root/.ssh/id_rsa
-#- name: Copy Jenkins public key for root user
-#  copy: src=id_rsa.pub dest=/home/root/.ssh/id_rsa.pub

@@ -12,8 +12,6 @@
 - name: Create rubygems checkfile
   file: path=/opt/rubygemsinstall.txt state=touch
   changed_when: False
-- name: Install puppet gem
-  gem: name=puppet state=latest user_install=no
 - name: Install bundler gem
   gem: name=bundler state=latest user_install=no
 - name: Install which package
